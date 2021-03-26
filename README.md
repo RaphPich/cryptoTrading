@@ -9,4 +9,4 @@ Configuration :
     - {"API_SECRET": <API_SECRET>, "API_PASS": <API_PASS>, "API_KEY": <API_KEY>}
 
 
-Reference Coinbase API : https://docs.pro.coinbase.com
+<a href="https://docs.pro.coinbase.com">Reference Coinbase API </a> 
