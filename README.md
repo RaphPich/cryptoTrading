@@ -5,10 +5,8 @@ Create a Coinbase account first at <a href="https://www.coinbase.com/fr/" >Coinb
 Then enable API key and keep the keys, wait for 48 hours for activate of your API key.
 
 # Configuration
-<h5>Please add credential file as follow</h5>
+## Please add credential file as follow
+  - CryptoTrading/pass.json</span> <br>
+  - {"API_SECRET": <API_SECRET>, "API_PASS": <API_PASS>, "API_KEY": <API_KEY>}
 
-<p>
-  <span>- CryptoTrading/pass.json</span> <br>
-  <span>- {"API_SECRET": <API_SECRET>, "API_PASS": <API_PASS>, "API_KEY": <API_KEY>}</span><br>
-</P>
 <a href="https://docs.pro.coinbase.com">Reference Coinbase API </a> 
