@@ -1,6 +1,6 @@
 <h1 align ="center"> Crypto Trading bot using Coinbase </h1>
 
-Crypto trading bot using websocket from Coinbase. Currently working on a strategy to place and remove order on a real time base for Raspberry Pi 4.
+Crypto trading bot using websocket from Coinbase. Currently working on a strategy to place and remove order in real time.
 
 # Configuration
 
@@ -13,4 +13,4 @@ Crypto trading bot using websocket from Coinbase. Currently working on a strateg
   - Create : CryptoTrading/pass.json
   - {"API_SECRET": <API_SECRET>, "API_PASS": <API_PASS>, "API_KEY": <API_KEY>}
 
-<a href="https://docs.pro.coinbase.com">Reference Coinbase API </a> 
+<a href="https://docs.pro.coinbase.com">See Coinbase API </a> 
