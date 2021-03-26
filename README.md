@@ -6,7 +6,7 @@ Then enable API key and keep the keys, wait for 48 hours for activate of your AP
 
 <h3> Configuration</h3>
 <h5>Please add credential file as follow</h5>
-    <div style="text-indent: 50px;"> - CryptoTrading/pass.json<br> </div>
-    <div style="text-indent: 50px;">- {"API_SECRET": <API_SECRET>, "API_PASS": <API_PASS>, "API_KEY": <API_KEY>}<br></div>
+    <p style="text-indent: 50px;"> - CryptoTrading/pass.json<br> </p>
+    <p style="text-indent: 50px;">- {"API_SECRET": <API_SECRET>, "API_PASS": <API_PASS>, "API_KEY": <API_KEY>}<br></p>
 
 <a href="https://docs.pro.coinbase.com">Reference Coinbase API </a> 
