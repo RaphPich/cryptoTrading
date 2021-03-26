@@ -1,6 +1,6 @@
 <h1 align ="center"> Crypto Trading bot using Coinbase </h1>
 
-Create a Coinbase account first at https://www.coinbase.com/fr/ 
+Create a Coinbase account first at <a href="https://www.coinbase.com/fr/" >Coinbase </a> 
 Then enable API key and keep the keys, wait for 48 hours for activate of your API key.
 
 Configuration :
