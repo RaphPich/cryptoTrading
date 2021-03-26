@@ -1,6 +1,6 @@
 <h1 align ="center"> Crypto Trading bot using Coinbase </h1>
 
-Crypto trading bot using websocket from Coinbase. Currently working on a strategy to place and remove order in real time.
+<p align = "center">Crypto trading bot using websocket from Coinbase. Currently working on a strategy to place and remove order in real time.</p>
 
 # Configuration
 
