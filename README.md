@@ -11,6 +11,6 @@
 
 ## Please add credential file as follow
   - Create : CryptoTrading/pass.json
-  - Content : {"API_SECRET": <API_SECRET>, "API_PASS": <API_PASS>, "API_KEY": <API_KEY>}
+  - Content : ```{"API_SECRET": <API_SECRET>, "API_PASS": <API_PASS>, "API_KEY": <API_KEY>}```
 
 <a href="https://docs.pro.coinbase.com">See Coinbase API </a> 
