@@ -41,12 +41,18 @@ class WebsocketClient(threading.Thread):
         self.stop = False
         self.ws = None
         self.q = queue.Queue()
+        self.keepalive = Thread(target=self._keepAlive)
+
+    def _keepAlive(self,interval=30):
+        while not self.stop:
+            self.ws.ping("keepalive")
+            time.sleep(interval)
 
     def run(self):
-
         self.ws = create_connection(self.url)
         self.ws.send(json.dumps(self.subParams))
         data = self.ws.recv()
+        self.keepalive.start()
         while not self.stop:
             data = self.ws.recv()
             self.q.put(json.loads(data))
