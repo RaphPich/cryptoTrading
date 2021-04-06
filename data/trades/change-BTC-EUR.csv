@@ -1,0 +1,2 @@
+type,side,product_id,time,sequence,price,old_size,new_size,order_id
+change,buy,BTC-EUR,2021-04-06T10:09:09.796365Z,10920614764,49591.91,0.29097946,0.12234641,1d522181-b422-473e-8755-eba1d0050009

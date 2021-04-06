@@ -1,10 +1,15 @@
 import threading
 import json
+import os
 import time
 import queue
+import csv
+import sys
 import json, hmac, hashlib, time, requests, base64
 from websocket import create_connection
 from requests.auth import AuthBase
+
+path = os.path.dirname(os.path.realpath(__file__))
 
 class WebsocketClient(threading.Thread):
     def __init__(self,products):
@@ -13,8 +18,9 @@ class WebsocketClient(threading.Thread):
 
         self.url = "wss://ws-feed.pro.coinbase.com"
         self.timestamp = str(time.time())
+        self.path = os.path.dirname(os.path.realpath(__file__))
 
-        with open("pass.json","r") as file:
+        with open(self.path+"/pass.json","r") as file:
             passAPI = json.load(file)
 
         message = self.timestamp + 'GET' + '/users/self/verify'
@@ -45,33 +51,28 @@ class WebsocketClient(threading.Thread):
             data = self.ws.recv()
             self.q.put(json.loads(data))
 
-if __name__ == "__main__":
-    import os
-    import csv
-    import sys
-    size = 0
-    cpt = 0
-    path = "data/trades/"
+size = 0
+cpt = 0
+pathTrades = path+"/data/trades/"
 
-    for elem in os.listdir("data/orderBook/"):
-        os.remove("data/orderBook"+elem)
-    for elem in os.listdir("data/trades/"):
-        os.remove("data/trades/"+elem)
+for elem in os.listdir("data/orderBook/"):
+    os.remove("data/orderBook"+elem)
+for elem in os.listdir("data/trades/"):
+    os.remove("data/trades/"+elem)
 
-    ws = WebsocketClient(["BTC-EUR"])
-    ws.start()
-    while True:
-        msg = ws.q.get()
-        size+= sys.getsizeof(msg)
-        cpt+=1
-        print("Size : {} bytes // Lines : {} // Queue size {}".format(size,cpt,ws.q.qsize()),end="\r")
-        fileName = path+msg["type"]+"-"+msg["product_id"]+".csv"
-        if msg["type"]+"-"+msg["product_id"]+".csv" in os.listdir(path):
-            with open(fileName, 'a') as file:
-                dict_writer = csv.DictWriter(file,msg.keys())
-                dict_writer.writerow(msg)
-        else:
-            with open(fileName, 'w+', newline='')  as file:
-                dict_writer = csv.DictWriter(file, msg.keys())
-                dict_writer.writeheader()
-                dict_writer.writerow(msg)
+ws = WebsocketClient(["BTC-EUR"])
+ws.start()
+while True:
+    msg = ws.q.get()
+    size+= sys.getsizeof(msg)
+    cpt+=1
+    fileName = pathTrades+msg["type"]+"-"+msg["product_id"]+".csv"
+    if msg["type"]+"-"+msg["product_id"]+".csv" in os.listdir(pathTrades):
+        with open(fileName, 'a') as file:
+            dict_writer = csv.DictWriter(file,msg.keys())
+            dict_writer.writerow(msg)
+    else:
+        with open(fileName, 'w+', newline='')  as file:
+            dict_writer = csv.DictWriter(file, msg.keys())
+            dict_writer.writeheader()
+            dict_writer.writerow(msg)
