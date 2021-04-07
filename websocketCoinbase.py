@@ -47,27 +47,36 @@ class WebsocketClient(threading.Thread):
         while self.ws.connected:
             self.ws.ping("keepalive")
             time.sleep(interval)
-    def connection(self):
+
+
+    def _connection(self):
         self.ws = create_connection(self.url)
         self.ws.send(json.dumps(self.subParams) )
         data = self.ws.recv()
 
-    def run(self):
-        self.connection()
-        self.keepalive.start()
+    def _close(self):
+        try:
+            if self.ws:
+            self.ws.close()
+        except WebSocketConnectionClosedException:
+            pass
+        finally:
+            self.keepalive.join()
+
+    def _communicate(self):
         while not self.stop:
             try:
                 data = self.ws.recv()
                 self.q.put(json.loads(data))
             except:
                 self.stop = True
-        try:
-            if self.ws:
-                self.ws.close()
-        except WebSocketConnectionClosedException:
-            pass
-        finally:
-            self.keepalive.join()
+
+    def run(self):
+        while True:
+            self._connection()
+            self.keepalive.start()
+            self._communicate()
+            self._close()
 
 if not "data" in os.listdir(path):
     os.mkdir(os.path.join(path,"data"))
