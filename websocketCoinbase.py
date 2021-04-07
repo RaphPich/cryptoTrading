@@ -57,7 +57,7 @@ class WebsocketClient(threading.Thread):
     def _close(self):
         try:
             if self.ws:
-            self.ws.close()
+                self.ws.close()
         except WebSocketConnectionClosedException:
             pass
         finally:
