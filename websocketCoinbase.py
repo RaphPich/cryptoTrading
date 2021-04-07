@@ -41,7 +41,7 @@ class WebsocketClient(threading.Thread):
         self.stop = False
         self.ws = None
         self.q = queue.Queue()
-        self.keepalive = Thread(target=self._keepAlive)
+        self.keepalive = threading.Thread(target=self._keepAlive)
 
     def _keepAlive(self,interval=30):
         while not self.stop:
@@ -57,14 +57,22 @@ class WebsocketClient(threading.Thread):
             data = self.ws.recv()
             self.q.put(json.loads(data))
 
+
+if not "data" in os.listdir(path):
+    os.mkdir(os.path.join(path,"data"))
+if not "orderBook" in os.listdir(path+"/data"):
+    os.mkdir(os.path.join(path,"data/orderBook"))
+if not "trades" in os.listdir(path+"/data"):
+    os.mkdir(os.path.join(path,"data/trades")) 
+
 size = 0
 cpt = 0
 pathTrades = path+"/data/trades/"
 
-for elem in os.listdir("data/orderBook/"):
-    os.remove("data/orderBook"+elem)
-for elem in os.listdir("data/trades/"):
-    os.remove("data/trades/"+elem)
+for elem in os.listdir(path+"/data/orderBook/"):
+    os.remove(path+"/data/orderBook/"+elem)
+for elem in os.listdir(path+"/data/trades/"):
+    os.remove(path+"/data/trades/"+elem)
 
 ws = WebsocketClient(["BTC-EUR"])
 ws.start()
