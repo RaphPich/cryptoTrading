@@ -50,9 +50,14 @@ class WebsocketClient(threading.Thread):
 
 
     def _connection(self):
-        self.ws = create_connection(self.url)
-        self.ws.send(json.dumps(self.subParams) )
-        data = self.ws.recv()
+        while not self.ws:        
+            try:
+                self.ws = create_connection(self.url)
+                self.ws.send(json.dumps(self.subParams) )
+                data = self.ws.recv()
+            except:
+                self.ws = None
+                time.sleep(1)
 
     def _close(self):
         try:
@@ -85,7 +90,6 @@ if not "orderBook" in os.listdir(path+"/data"):
 if not "trades" in os.listdir(path+"/data"):
     os.mkdir(os.path.join(path,"data/trades")) 
 
-size = 0
 cpt = 0
 pathTrades = path+"/data/trades/"
 
@@ -98,7 +102,6 @@ ws = WebsocketClient(["BTC-EUR"])
 ws.start()
 while True:
     msg = ws.q.get()
-    size+= sys.getsizeof(msg)
     cpt+=1
     fileName = pathTrades+msg["type"]+"-"+msg["product_id"]+".csv"
     if msg["type"]+"-"+msg["product_id"]+".csv" in os.listdir(pathTrades):
