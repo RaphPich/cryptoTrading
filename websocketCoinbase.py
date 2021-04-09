@@ -41,13 +41,12 @@ class WebsocketClient(threading.Thread):
         self.stop = False
         self.ws = None
         self.q = queue.Queue()
-        self.keepalive = threading.Thread(target=self._keepAlive)
+        self.keepalive = None
 
     def _keepAlive(self,interval=30):
         while self.ws.connected and not self.stop:
             self.ws.ping("keepalive")
             time.sleep(interval)
-
 
     def _connection(self):
         self.stop = False
@@ -56,6 +55,8 @@ class WebsocketClient(threading.Thread):
                 self.ws = create_connection(self.url)
                 self.ws.send(json.dumps(self.subParams) )
                 data = self.ws.recv()
+                self.keepalive = threading.Thread(target=self._keepAlive)
+                self.keepalive.start()
             except:
                 self.ws = None
                 time.sleep(1)
@@ -66,9 +67,10 @@ class WebsocketClient(threading.Thread):
                 self.ws.close()
         except WebSocketConnectionClosedException:
             pass
-        finally:
-            self.stop=True
-            self.keepalive.join()
+        
+        self.stop=True
+        self.keepalive.join()
+        self.keepalive = None
 
     def _communicate(self):
         while not self.stop:
@@ -81,7 +83,6 @@ class WebsocketClient(threading.Thread):
     def run(self):
         while True:
             self._connection()
-            self.keepalive.start()
             self._communicate()
             self._close()
 
