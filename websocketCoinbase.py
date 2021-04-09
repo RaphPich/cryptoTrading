@@ -44,12 +44,13 @@ class WebsocketClient(threading.Thread):
         self.keepalive = threading.Thread(target=self._keepAlive)
 
     def _keepAlive(self,interval=30):
-        while self.ws.connected:
+        while self.ws.connected and not self.stop:
             self.ws.ping("keepalive")
             time.sleep(interval)
 
 
     def _connection(self):
+        self.stop = False
         while not self.ws:        
             try:
                 self.ws = create_connection(self.url)
@@ -66,6 +67,7 @@ class WebsocketClient(threading.Thread):
         except WebSocketConnectionClosedException:
             pass
         finally:
+            self.stop=True
             self.keepalive.join()
 
     def _communicate(self):
