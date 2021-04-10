@@ -69,7 +69,6 @@ class WebsocketClient(threading.Thread):
             pass
         
         self.stop=True
-        self.keepalive.join()
         self.keepalive = None
 
     def _communicate(self):
